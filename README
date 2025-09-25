@@ -1,0 +1,73 @@
+# Rick & Morty Microfrontends
+
+Este proyecto implementa una arquitectura de **microfrontends con React + TypeScript + Webpack Module Federation**, estilizado con **TailwindCSS**, y orquestado con **Docker Compose**.
+
+Incluye tres aplicaciones:
+
+- **mf-shell (host)** → Aplicación contenedor que orquesta los microfrontends.  
+- **mf-characters** → Listado de personajes de Rick & Morty.  
+- **mf-character-detail** → Detalle de un personaje.
+
+---
+
+## Requisitos previos
+
+- Node.js 20.19  
+- npm >= 9  
+- Docker >= 20  
+- Docker Compose >= 2  
+
+---
+
+## Ejecutar en modo desarrollo
+
+Puedes correr cada microfrontend por separado.
+
+### 1. Instalar dependencias en cada app
+```bash
+# Shell (host)
+cd mf-shell
+npm install
+
+# Listado de personajes
+cd ../mf-characters
+npm install
+
+# Detalle de personaje
+cd ../mf-character-detail
+npm install
+
+
+
+# En la carpeta mf-shell
+npm run dev   # host en http://localhost:3000
+
+# En la carpeta mf-characters
+npm run dev   # microfrontend listado en http://localhost:3001
+
+# En la carpeta mf-character-detail
+npm run dev   # microfrontend detalle en http://localhost:3002
+
+docker compose up --build
+
+rick-mfe/
+│
+├── mf-shell/                # Host (contenedor principal)
+│   ├── src/                 # Código React + TS
+│   ├── webpack.config.js    # Configuración Module Federation
+│   ├── Dockerfile           # Dockerfile para la app
+│   └── package.json
+│
+├── mf-character-list/       # MF listado de personajes
+│   ├── src/
+│   ├── webpack.config.js
+│   ├── Dockerfile
+│   └── package.json
+│
+├── mf-character-detail/     # MF detalle de personaje
+│   ├── src/
+│   ├── webpack.config.js
+│   ├── Dockerfile
+│   └── package.json
+│
+└── docker-compose.yml       # Orquestación de todo el ecosistema

@@ -1,0 +1,27 @@
+services:
+  shell:
+    build: ./mf-shell
+    ports:
+      - "3000:5000"
+    volumes:
+      - ./mf-shell:/app
+    command: npm run dev -- --host 0.0.0.0
+    depends_on:
+      - character-list
+      - character-detail
+
+  character-list:
+    build: ./mf-characters
+    ports:
+      - "3002:5002"
+    volumes:
+      - ./mf-characters:/app
+    command: npm run dev -- --host 0.0.0.0
+
+  character-detail:
+    build: ./mf-character-detail
+    ports:
+      - "3001:5001"
+    volumes:
+      - ./mf-character-detail:/app
+    command: npm run dev -- --host 0.0.0.0
