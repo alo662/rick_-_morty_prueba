@@ -26,9 +26,6 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
       <h1 className="text-lg font-bold text-slate-100 tracking-wide">Inicio</h1>
 
       <div className="flex items-center space-x-4">
-        <span className="text-sm text-neutral hidden sm:block font-medium">
-          Hola compañero PASE
-        </span>
         <img
           src="https://rickandmortyapi.com/api/character/avatar/7.jpeg"
           alt="avatar"
