@@ -4,24 +4,30 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        surface: {
+          DEFAULT: "#0f172a",
+          raised: "#1e293b",
+          inset: "#0c1222",
+          border: "#334155",
+        },
         primary: {
-          DEFAULT: "#2563EB",
-          light: "#3B82F6",
-          dark: "#1E40AF",
+          DEFAULT: "#38bdf8",
+          light: "#7dd3fc",
+          dark: "#0ea5e9",
         },
         secondary: {
-          DEFAULT: "#7C3AED",
-          light: "#A78BFA",
-          dark: "#5B21B6",
+          DEFAULT: "#a78bfa",
+          light: "#c4b5fd",
+          dark: "#7c3aed",
         },
         accent: {
-          DEFAULT: "#EC4899",
-          dark: "#BE185D",
+          DEFAULT: "#f472b6",
+          dark: "#ec4899",
         },
         neutral: {
-          light: "#F9FAFB",
-          DEFAULT: "#9CA3AF",
-          dark: "#111827",
+          light: "#cbd5e1",
+          DEFAULT: "#94a3b8",
+          dark: "#64748b",
         },
         success: {
           DEFAULT: "#10B981",

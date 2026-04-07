@@ -9,10 +9,10 @@ const Home: React.FC = () => {
       </h2>
 
       <div className="space-y-1">
-        <p className="text-neutral text-lg">
+        <p className="text-slate-400 text-lg">
           Explora los diferentes personajes dando click en la tarjeta de abajo
         </p>
-        <p className="text-neutral text-lg">
+        <p className="text-slate-400 text-lg">
           También puedes utilizar la barra lateral para navegar
         </p>
       </div>
@@ -20,17 +20,17 @@ const Home: React.FC = () => {
       <div className="grid grid-cols-1 gap-6 w-full max-w-md">
         <Link
           to="/characters"
-          className="flex flex-col items-center justify-center p-6 rounded-xl shadow-lg bg-white border border-gray-200 hover:border-primary hover:shadow-primary/40 hover:shadow-xl transition transform hover:-translate-y-1"
+          className="flex flex-col items-center justify-center p-6 rounded-xl shadow-lg bg-surface-raised border border-surface-border hover:border-primary/60 hover:shadow-primary/20 hover:shadow-xl transition transform hover:-translate-y-1"
         >
           <img
             src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
             alt="Characters"
-            className="w-24 h-24 rounded-full mb-4 ring-4 ring-primary/30"
+            className="w-24 h-24 rounded-full mb-4 ring-4 ring-primary/40"
           />
-          <h3 className="text-xl font-semibold text-gray-800">
-            <span className="text-primary">Ver personajes</span>
+          <h3 className="text-xl font-semibold text-slate-100">
+            <span className="text-primary-light">Ver personajes</span>
           </h3>
-          <p className="text-sm text-gray-600 mt-2">
+          <p className="text-sm text-slate-400 mt-2">
             Navega por todos los personajes de Rick & Morty
           </p>
         </Link>

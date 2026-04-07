@@ -1,73 +1,162 @@
-# Rick & Morty Microfrontends
+# Portal Rick & Morty — Microfrontends
 
-Este proyecto implementa una arquitectura de **microfrontends con React + TypeScript + Webpack Module Federation**, estilizado con **TailwindCSS**, y orquestado con **Docker Compose**.
-
-Incluye tres aplicaciones:
-
-- **mf-shell (host)** → Aplicación contenedor que orquesta los microfrontends.  
-- **mf-characters** → Listado de personajes de Rick & Morty.  
-- **mf-character-detail** → Detalle de un personaje.
+> Laboratorio con **tres aplicaciones React** independientes que se ensamblan en el navegador mediante **Webpack 5 Module Federation**. Cada pieza vive en su propia carpeta y puede levantarse sola o junto al resto usando **Docker Compose**.
 
 ---
 
-## Requisitos previos
+## Contenido rápido
 
-- Node.js 20.19  
-- npm >= 9  
-- Docker >= 20  
-- Docker Compose >= 2  
+| Quiero… | Dónde ir |
+|--------|-----------|
+| Entender qué es cada carpeta | [Arquitectura del repo](#arquitectura-del-repositorio) |
+| Correr todo sin Docker | [Desarrollo local (3 terminales)](#opción-a---desarrollo-local-sin-docker) |
+| Correr con contenedores | [Docker Compose](#opción-b---docker-compose) |
+| Saber puertos y URLs | [Mapa de puertos](#mapa-de-puertos) |
 
 ---
 
-## Ejecutar en modo desarrollo
+## Requisitos
 
-Puedes correr cada microfrontend por separado.
+| Herramienta | Versión orientativa |
+|-------------|---------------------|
+| Node.js | 20.x (el proyecto apunta a 20.19 en Docker) |
+| npm | 9 o superior |
+| Docker Desktop (o motor + CLI) | reciente |
+| Docker Compose | v2 (`docker compose`) |
 
-### 1. Instalar dependencias en cada app
+---
+
+## Arquitectura del repositorio
+
+```
+prueba-pase/
+├── docker-compose.yml      # Orquesta los 3 servicios
+├── mf-shell/               # Host: rutas, layout, navbar, carga de remotos
+├── mf-characters/          # Remote: listado, filtros, tarjetas
+└── mf-character-detail/    # Remote: ficha del personaje y episodios
+```
+
+Flujo resumido: el **shell** (`mf-shell`) es la app que abres en el navegador; en tiempo de ejecución pide los bundles de **characters** y **character-detail** para montar las pantallas correspondientes. La API pública usada es [Rick and Morty API](https://rickandmortyapi.com/).
+
+---
+
+## Mapa de puertos
+
+| Servicio | Carpeta | Puerto (desarrollo) | Rol |
+|----------|---------|---------------------|-----|
+| Shell (host) | `mf-shell` | **3000** | Entrada principal: http://localhost:3000 |
+| Listado | `mf-characters` | **3001** | Expone `remoteEntry.js` para el listado |
+| Detalle | `mf-character-detail` | **3002** | Expone `remoteEntry.js` para el detalle |
+
+El host está configurado para consumir los remotos en esas URLs de `localhost`. Si cambias puertos, debes alinear **webpack** (remotes / `publicPath`) y **docker-compose**.
+
+---
+
+## Opción A — Desarrollo local (sin Docker)
+
+### 1. Instalar dependencias (una vez por microfrontend)
+
+No existe `package.json` en la raíz del monorepo: hay que instalar **dentro** de cada carpeta.
+
 ```bash
-# Shell (host)
+cd mf-shell && npm install && cd ..
+cd mf-characters && npm install && cd ..
+cd mf-character-detail && npm install && cd ..
+```
+
+(O hazlo en tres pasos manuales entrando a cada directorio.)
+
+### 2. Levantar los servidores de desarrollo
+
+Necesitas **tres procesos en paralelo** (tres terminales o pestañas). El orden recomendado es primero los remotos y después el host.
+
+**Terminal 1 — listado**
+
+```bash
+cd mf-characters
+npm run dev
+```
+
+**Terminal 2 — detalle**
+
+```bash
+cd mf-character-detail
+npm run dev
+```
+
+**Terminal 3 — shell (host)**
+
+```bash
 cd mf-shell
-npm install
+npm run dev
+```
 
-# Listado de personajes
-cd ../mf-characters
-npm install
+### 3. Abrir la aplicación
 
-# Detalle de personaje
+Entra en el navegador a:
+
+**http://localhost:3000**
+
+Desde ahí navegas a personajes y detalle; los otros dos puertos deben seguir activos para que Module Federation resuelva los remotos.
+
+### Pruebas unitarias (opcional)
+
+En cada microfrontend con tests:
+
+```bash
+cd mf-characters
+CI=true npm test
+
 cd ../mf-character-detail
-npm install
+CI=true npm test
+```
 
+(`CI=true` evita que Jest se quede en modo watch interactivo.)
 
+---
 
-# En la carpeta mf-shell
-npm run dev   # host en http://localhost:3000
+## Opción B — Docker Compose
 
-# En la carpeta mf-characters
-npm run dev   # microfrontend listado en http://localhost:3001
+Desde la **raíz** del repositorio (donde está `docker-compose.yml`):
 
-# En la carpeta mf-character-detail
-npm run dev   # microfrontend detalle en http://localhost:3002
-
+```bash
 docker compose up --build
+```
 
-rick-mfe/
-│
-├── mf-shell/                # Host (contenedor principal)
-│   ├── src/                 # Código React + TS
-│   ├── webpack.config.js    # Configuración Module Federation
-│   ├── Dockerfile           # Dockerfile para la app
-│   └── package.json
-│
-├── mf-character-list/       # MF listado de personajes
-│   ├── src/
-│   ├── webpack.config.js
-│   ├── Dockerfile
-│   └── package.json
-│
-├── mf-character-detail/     # MF detalle de personaje
-│   ├── src/
-│   ├── webpack.config.js
-│   ├── Dockerfile
-│   └── package.json
-│
-└── docker-compose.yml       # Orquestación de todo el ecosistema
+- La primera vez construye las imágenes y ejecuta `npm install` dentro de cada contenedor (puede tardar).
+- Con los contenedores arriba, la app queda accesible en **http://localhost:3000** (shell).
+- Los servicios de listado y detalle quedan publicados en **3001** y **3002** en tu máquina, alineados con la configuración de Module Federation.
+
+Para detener: `Ctrl+C` en la terminal donde corre Compose, o `docker compose down` en otra terminal desde la misma carpeta.
+
+### Aviso sobre puertos
+
+Si ya tienes `npm run dev` local usando 3000, 3001 o 3002, Docker no podrá enlazar esos puertos (`address already in use`). Cierra los procesos locales o cambia el mapeo en `docker-compose.yml`.
+
+---
+
+## Resumen de comandos útiles
+
+| Ubicación | Comando | Efecto |
+|-----------|---------|--------|
+| `mf-shell` | `npm run dev` | Servidor de desarrollo del host (puerto 3000) |
+| `mf-characters` | `npm run dev` | Remote del listado (puerto 3001) |
+| `mf-character-detail` | `npm run dev` | Remote del detalle (puerto 3002) |
+| Raíz del repo | `docker compose up --build` | Levanta los tres servicios con volúmenes montados |
+
+---
+
+## Stack principal
+
+- React (componentes funcionales y hooks)  
+- TypeScript  
+- Webpack 5 + Module Federation  
+- Tailwind CSS  
+- React Router (rutas en el shell)  
+- Docker / Docker Compose por microfrontend  
+
+---
+
+## Licencia y autoría
+
+Proyecto de examen / portafolio. Ajusta esta sección según tu licencia o datos de entrega.

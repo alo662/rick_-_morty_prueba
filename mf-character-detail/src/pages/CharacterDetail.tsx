@@ -50,7 +50,7 @@ const CharacterDetail: React.FC = () => {
   if (err) {
     return (
       <section className="w-full flex flex-col items-center text-center py-12">
-        <div className="max-w-md bg-red-50 border border-red-200 text-red-700 px-8 py-6 rounded-xl shadow-md">
+        <div className="max-w-md bg-red-950/40 border border-red-800/80 text-red-200 px-8 py-6 rounded-xl shadow-md">
           <p className="text-lg font-bold flex items-center gap-2">Error</p>
           <p className="mt-2">{err}</p>
           <Link
@@ -67,7 +67,7 @@ const CharacterDetail: React.FC = () => {
   if (!character) {
     return (
       <section className="w-full flex flex-col items-center text-center py-12">
-        <div className="max-w-md bg-yellow-50 border border-yellow-200 text-yellow-700 px-8 py-6 rounded-xl shadow-md">
+        <div className="max-w-md bg-amber-950/40 border border-amber-800/80 text-amber-200 px-8 py-6 rounded-xl shadow-md">
           <p className="text-lg font-bold flex items-center gap-2">
             Personaje no encontrado
           </p>
@@ -84,17 +84,17 @@ const CharacterDetail: React.FC = () => {
 
   return (
     <section className="space-y-10">
-      <h1 className="text-3xl font-extrabold text-gray-800 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      <h1 className="text-3xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
         {character.name}
       </h1>
 
-      <div className="grid md:grid-cols-[280px,1fr] gap-8 items-start bg-white rounded-xl shadow p-6">
+      <div className="grid md:grid-cols-[280px,1fr] gap-8 items-start bg-surface-raised border border-surface-border rounded-xl shadow-lg shadow-black/20 p-6">
         <img
           src={character.image}
           alt={character.name}
           className="rounded-xl w-full max-w-xs shadow-md"
         />
-        <div className="space-y-3 text-gray-700">
+        <div className="space-y-3 text-slate-300">
           <p>
             <span className="font-semibold">Estado:</span> {character.status}
           </p>
@@ -123,7 +123,7 @@ const CharacterDetail: React.FC = () => {
           )}
           <Link
             to="/characters"
-            className="inline-block mt-4 text-primary font-medium hover:underline"
+            className="inline-block mt-4 text-primary-light font-medium hover:underline"
           >
             Volver al listado
           </Link>
@@ -135,16 +135,16 @@ const CharacterDetail: React.FC = () => {
         {episodes.map((ep) => (
           <article
             key={ep.id}
-            className="relative bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-lg hover:border-primary transition group"
+            className="relative bg-surface-raised border border-surface-border rounded-xl p-5 shadow-md shadow-black/15 hover:shadow-lg hover:border-primary/40 transition group"
           >
-            <h3 className="font-bold text-lg text-primary group-hover:text-accent transition">
+            <h3 className="font-bold text-lg text-primary-light group-hover:text-accent transition">
               {ep.name}
             </h3>
             <span className="inline-block mt-2 text-xs px-2 py-1 rounded-full bg-accent text-white font-medium">
               {ep.episode}
             </span>
-            <p className="text-sm text-gray-600 mt-3">
-              <span className="font-semibold text-gray-700">Fecha:</span>{" "}
+            <p className="text-sm text-slate-400 mt-3">
+              <span className="font-semibold text-slate-300">Fecha:</span>{" "}
               {ep.air_date}
             </p>
           </article>

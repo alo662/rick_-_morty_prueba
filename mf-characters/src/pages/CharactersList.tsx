@@ -26,7 +26,7 @@ const CharactersList: React.FC = () => {
 
   return (
     <section className="w-full h-full">
-      <h1 className="text-3xl font-extrabold mb-8 text-gray-800 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      <h1 className="text-3xl font-extrabold mb-8 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
         Personajes
       </h1>
 
@@ -50,7 +50,7 @@ const CharactersList: React.FC = () => {
 
       {!error && (
         <div className="flex items-center justify-between mt-10">
-          <p className="text-sm text-neutral">
+          <p className="text-sm text-slate-400">
             Página <span className="font-semibold">{page}</span> de{" "}
             {data?.info?.pages ?? 0}
           </p>

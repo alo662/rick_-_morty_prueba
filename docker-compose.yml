@@ -2,7 +2,7 @@ services:
   shell:
     build: ./mf-shell
     ports:
-      - "3000:5000"
+      - "3000:3000"
     volumes:
       - ./mf-shell:/app
     command: npm run dev -- --host 0.0.0.0
@@ -13,7 +13,7 @@ services:
   character-list:
     build: ./mf-characters
     ports:
-      - "3002:5002"
+      - "3001:3001"
     volumes:
       - ./mf-characters:/app
     command: npm run dev -- --host 0.0.0.0
@@ -21,7 +21,7 @@ services:
   character-detail:
     build: ./mf-character-detail
     ports:
-      - "3001:5001"
+      - "3002:3002"
     volumes:
       - ./mf-character-detail:/app
     command: npm run dev -- --host 0.0.0.0

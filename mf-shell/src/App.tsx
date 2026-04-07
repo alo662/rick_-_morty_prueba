@@ -12,7 +12,7 @@ function App() {
 
   return (
     <Router>
-      <div className="h-screen bg-gray-100 flex">
+      <div className="h-screen bg-surface flex text-slate-200">
         <SideNav open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         <div
@@ -27,7 +27,7 @@ function App() {
             <Suspense
               fallback={
                 <div className="flex justify-center items-center h-full">
-                  <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+                  <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
                 </div>
               }
             >

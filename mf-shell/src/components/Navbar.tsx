@@ -3,9 +3,9 @@ import { NavbarProps } from "../shared/interfaces/shell.interfaces";
 
 const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
   return (
-    <header className="h-[60px] bg-primary shadow flex items-center justify-between px-6 w-full">
+    <header className="h-[60px] bg-surface-raised border-b border-surface-border shadow-sm shadow-black/30 flex items-center justify-between px-6 w-full">
       <button
-        className="md:hidden p-2 text-white hover:bg-white/20 rounded-lg"
+        className="md:hidden p-2 text-slate-300 hover:bg-white/10 rounded-lg"
         onClick={onToggleSidebar}
       >
         <svg
@@ -23,16 +23,16 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
         </svg>
       </button>
 
-      <h1 className="text-lg font-bold text-white tracking-wide">Inicio</h1>
+      <h1 className="text-lg font-bold text-slate-100 tracking-wide">Inicio</h1>
 
       <div className="flex items-center space-x-4">
-        <span className="text-sm text-white/90 hidden sm:block font-medium">
+        <span className="text-sm text-neutral hidden sm:block font-medium">
           Hola compañero PASE
         </span>
         <img
           src="https://rickandmortyapi.com/api/character/avatar/7.jpeg"
           alt="avatar"
-          className="w-10 h-10 rounded-full border-2 border-white ring-2 ring-accent/70"
+          className="w-10 h-10 rounded-full border-2 border-primary/50 ring-2 ring-accent/50"
         />
       </div>
     </header>
